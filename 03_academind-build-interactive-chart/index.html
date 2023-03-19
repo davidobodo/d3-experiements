@@ -79,8 +79,9 @@
 				.enter()
 				.append("text")
 				.text((d) => d.value)
-				.attr("x", (d) => xScale(d.country))
-				.attr("y", (d) => yScale(d.value));
+				.attr("x", (d) => xScale(d.country) + xScale.bandwidth() / 2)
+				.attr("y", (d) => yScale(d.value) - 20)
+				.attr("text-anchor", "middle");
 		</script>
 	</body>
 </html>
