@@ -9,8 +9,14 @@
 
 		<style>
 			.container {
-				width: 600px;
-				height: 600px;
+				width: 250px;
+				height: 250px;
+				display: flex;
+				justify-content: space-around;
+			}
+
+			.bar {
+				background-color: purple;
 			}
 		</style>
 	</head>
@@ -32,7 +38,16 @@
 				new Country("d4", 6, "Germany"),
 			];
 
-			d3.select("div").style("border", "1px solid red").classed("container", true);
+			const container = d3.select("div").style("border", "1px solid red").classed("container", true);
+
+			container
+				.selectAll(".bar")
+				.data(DUMMY_DATA)
+				.enter()
+				.append("div")
+				.classed("bar", true)
+				.style("width", "50px")
+				.style("height", "150px");
 		</script>
 	</body>
 </html>
