@@ -10,13 +10,27 @@
 	<body>
 		<div></div>
 		<script>
+			class Country {
+				constructor(id, value, country) {
+					this.id = id;
+					this.value = value;
+					this.country = country;
+				}
+			}
+
+			const DUMMY_DATA = [
+				new Country("d1", 10, "USA"),
+				new Country("d2", 11, "India"),
+				new Country("d3", 12, "China"),
+				new Country("d4", 6, "Germany"),
+			];
 			d3
 				.select("div")
 				.selectAll("p")
-				.data([1, 2, 3])
+				.data(DUMMY_DATA)
 				.enter()
 				.append("p")
-				.text((d) => d);
+				.text((d) => d.country);
 		</script>
 	</body>
 </html>
