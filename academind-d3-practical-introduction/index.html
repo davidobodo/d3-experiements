@@ -6,6 +6,13 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<title>D3</title>
 		<script src="https://d3js.org/d3.v7.min.js"></script>
+
+		<style>
+			.container {
+				width: 600px;
+				height: 600px;
+			}
+		</style>
 	</head>
 	<body>
 		<div></div>
@@ -24,13 +31,8 @@
 				new Country("d3", 12, "China"),
 				new Country("d4", 6, "Germany"),
 			];
-			d3
-				.select("div")
-				.selectAll("p")
-				.data(DUMMY_DATA)
-				.enter()
-				.append("p")
-				.text((d) => d.country);
+
+			d3.select("div").style("border", "1px solid red").classed("container", true);
 		</script>
 	</body>
 </html>
