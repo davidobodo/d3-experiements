@@ -9,6 +9,9 @@
 		<script src="https://cdn.jsdelivr.net/npm/d3-scale@4"></script>
 
 		<style>
+			#app {
+				margin-top: 100px;
+			}
 			rect {
 				fill: purple;
 			}
@@ -57,6 +60,7 @@
 			const chartContainer = d3.select("svg").attr("width", CHART_WIDTH).attr("height", CHART_HEIGHT);
 			const chart = chartContainer.append("g");
 
+			// Create bars
 			chart
 				.selectAll(".bar")
 				.data(DUMMY_DATA)
@@ -65,6 +69,16 @@
 				.classed("bar", true)
 				.attr("width", xScale.bandwidth())
 				.attr("height", (d) => CHART_HEIGHT - yScale(d.value))
+				.attr("x", (d) => xScale(d.country))
+				.attr("y", (d) => yScale(d.value));
+
+			// Add Labels
+			chart
+				.selectAll(".label")
+				.data(DUMMY_DATA)
+				.enter()
+				.append("text")
+				.text((d) => d.value)
 				.attr("x", (d) => xScale(d.country))
 				.attr("y", (d) => yScale(d.value));
 		</script>
