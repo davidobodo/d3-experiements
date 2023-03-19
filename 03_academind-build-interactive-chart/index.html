@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Document</title>
+		<script src="https://d3js.org/d3.v7.min.js"></script>
+		<script src="https://cdn.jsdelivr.net/npm/d3-scale@4"></script>
+
+		<style>
+			rect {
+				fill: purple;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="app">
+			<div id="chart">
+				<svg></svg>
+			</div>
+
+			<div id="data">
+				<ul></ul>
+			</div>
+		</div>
+
+		<script>
+			class Country {
+				constructor(id, value, country) {
+					this.id = id;
+					this.value = value;
+					this.country = country;
+				}
+			}
+
+			// Data
+			const DUMMY_DATA = [
+				new Country("d1", 10, "USA"),
+				new Country("d2", 11, "India"),
+				new Country("d3", 12, "China"),
+				new Country("d4", 6, "Germany"),
+			];
+
+			// Define constants
+			const CHART_WIDTH = 600;
+			const CHART_HEIGHT = 400;
+
+			// Create Scales
+			const xScale = d3.scaleBand().rangeRound([0, CHART_WIDTH]).padding(0.1);
+			const yScale = d3.scaleLinear().range([CHART_HEIGHT, 0]);
+
+			xScale.domain(DUMMY_DATA.map((d) => d.country));
+			yScale.domain([0, d3.max(DUMMY_DATA, (d) => d.value)]);
+
+			// Create Chart
+			const chartContainer = d3.select("svg").attr("width", CHART_WIDTH).attr("height", CHART_HEIGHT);
+			const chart = chartContainer.append("g");
+
+			chart
+				.selectAll(".bar")
+				.data(DUMMY_DATA)
+				.enter()
+				.append("rect")
+				.classed("bar", true)
+				.attr("width", xScale.bandwidth())
+				.attr("height", (d) => CHART_HEIGHT - yScale(d.value))
+				.attr("x", (d) => xScale(d.country))
+				.attr("y", (d) => yScale(d.value));
+		</script>
+	</body>
+</html>
