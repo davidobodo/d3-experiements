@@ -12,6 +12,10 @@
 			.added {
 				background-color: yellow;
 			}
+
+			.redundant {
+				background-color: red;
+			}
 		</style>
 	</head>
 	<body>
@@ -33,7 +37,7 @@
 			d3
 				.select("ul")
 				.selectAll("li")
-				.data(countryData.items)
+				.data(countryData.items, (d) => d)
 				.enter()
 				.append("li")
 				.text((d) => d);
@@ -43,12 +47,21 @@
 				d3
 					.select("ul")
 					.selectAll("li")
-					.data(countryData.items)
+					.data(countryData.items, (d) => d)
 					.enter()
 					.append("li")
 					.classed("added", true)
 					.text((d) => d);
 			}, 2000);
+			setTimeout(() => {
+				countryData.removeItem(0);
+				d3
+					.select("ul")
+					.selectAll("li")
+					.data(countryData.items, (d) => d)
+					.exit()
+					.classed("redundant", true);
+			}, 4000);
 		</script>
 	</body>
 </html>
