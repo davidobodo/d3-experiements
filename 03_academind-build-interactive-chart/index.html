@@ -46,6 +46,8 @@
 				new Country("d4", 6, "Germany"),
 			];
 
+			let selectedData = DUMMY_DATA;
+
 			// Define constants
 			const MARGINS = { top: 20, bottom: 10 };
 			const CHART_WIDTH = 600;
@@ -72,28 +74,62 @@
 				.attr("transform", `translate(0, ${CHART_HEIGHT})`)
 				.attr("color", "red");
 
-			// Create bars
-			chart
-				.selectAll(".bar")
-				.data(DUMMY_DATA)
-				.enter()
-				.append("rect")
-				.classed("bar", true)
-				.attr("width", xScale.bandwidth())
-				.attr("height", (d) => CHART_HEIGHT - yScale(d.value))
-				.attr("x", (d) => xScale(d.country))
-				.attr("y", (d) => yScale(d.value));
+			function renderChart() {
+				// Create bars
+				chart
+					.selectAll(".bar")
+					.data(selectedData, (d) => d.id)
+					.enter()
+					.append("rect")
+					.classed("bar", true)
+					.attr("width", xScale.bandwidth())
+					.attr("height", (d) => CHART_HEIGHT - yScale(d.value))
+					.attr("x", (d) => xScale(d.country))
+					.attr("y", (d) => yScale(d.value));
 
-			// Add Labels
-			chart
-				.selectAll(".label")
-				.data(DUMMY_DATA)
-				.enter()
-				.append("text")
-				.text((d) => d.value)
-				.attr("x", (d) => xScale(d.country) + xScale.bandwidth() / 2)
-				.attr("y", (d) => yScale(d.value) - 20)
-				.attr("text-anchor", "middle");
+				chart
+					.selectAll(".bar")
+					.data(selectedData, (d) => d.id)
+					.exit()
+					.remove();
+
+				// Add Labels
+				chart
+					.selectAll(".label")
+					.data(selectedData, (d) => d.id)
+					.enter()
+					.append("text")
+					.text((d) => d.value)
+					.attr("x", (d) => xScale(d.country) + xScale.bandwidth() / 2)
+					.attr("y", (d) => yScale(d.value) - 20)
+					.attr("text-anchor", "middle");
+				chart
+					.selectAll(".label")
+					.data(selectedData, (d) => d.id)
+					.exit()
+					.remove();
+			}
+
+			renderChart();
+
+			// Checks
+			let unselectedIds = [];
+			const listItems = d3.select("#data").select("ul").selectAll("li").data(DUMMY_DATA).enter().append("li");
+			listItems.append("span").text((d) => d.country);
+			listItems
+				.append("input")
+				.attr("type", "checkbox")
+				.attr("checked", true)
+				.on("change", function (e, data) {
+					if (unselectedIds.indexOf(data.id) === -1) {
+						unselectedIds.push(data.id);
+					} else {
+						unselectedIds = unselectedIds.filter((id) => id !== data.id);
+					}
+					selectedData = DUMMY_DATA.filter((d) => unselectedIds.indexOf(d.id) === -1);
+					console.log(selectedData);
+					renderChart();
+				});
 		</script>
 	</body>
 </html>
