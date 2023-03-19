@@ -7,6 +7,7 @@
 		<title>Document</title>
 		<script src="https://d3js.org/d3.v7.min.js"></script>
 		<script src="https://cdn.jsdelivr.net/npm/d3-scale@4"></script>
+		<script src="https://cdn.jsdelivr.net/npm/d3-axis@3"></script>
 
 		<style>
 			#app {
@@ -46,8 +47,9 @@
 			];
 
 			// Define constants
+			const MARGINS = { top: 20, bottom: 10 };
 			const CHART_WIDTH = 600;
-			const CHART_HEIGHT = 400;
+			const CHART_HEIGHT = 400 - MARGINS.top - MARGINS.bottom;
 
 			// Create Scales
 			const xScale = d3.scaleBand().rangeRound([0, CHART_WIDTH]).padding(0.1);
@@ -57,8 +59,18 @@
 			yScale.domain([0, d3.max(DUMMY_DATA, (d) => d.value)]);
 
 			// Create Chart
-			const chartContainer = d3.select("svg").attr("width", CHART_WIDTH).attr("height", CHART_HEIGHT);
+			const chartContainer = d3
+				.select("svg")
+				.attr("width", CHART_WIDTH)
+				.attr("height", CHART_HEIGHT + MARGINS.top + MARGINS.bottom);
 			const chart = chartContainer.append("g");
+
+			// Create axis
+			chart
+				.append("g")
+				.call(d3.axisBottom(xScale).tickSizeOuter(0))
+				.attr("transform", `translate(0, ${CHART_HEIGHT})`)
+				.attr("color", "red");
 
 			// Create bars
 			chart
