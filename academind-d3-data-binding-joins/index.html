@@ -7,6 +7,12 @@
 		<script src="https://d3js.org/d3.v7.min.js"></script>
 		<script src="https://cdn.jsdelivr.net/npm/d3-scale@4"></script>
 		<title>Document</title>
+
+		<style>
+			.added {
+				background-color: yellow;
+			}
+		</style>
 	</head>
 	<body>
 		<ul></ul>
@@ -40,6 +46,7 @@
 					.data(countryData.items)
 					.enter()
 					.append("li")
+					.classed("added", true)
 					.text((d) => d);
 			}, 2000);
 		</script>
