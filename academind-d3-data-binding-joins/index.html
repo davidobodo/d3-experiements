@@ -16,6 +16,10 @@
 			.redundant {
 				background-color: red;
 			}
+
+			.updated {
+				background-color: green;
+			}
 		</style>
 	</head>
 	<body>
@@ -42,6 +46,7 @@
 				.append("li")
 				.text((d) => d);
 
+			// Add data
 			setTimeout(() => {
 				countryData.addItem("Nigeria");
 				d3
@@ -53,6 +58,8 @@
 					.classed("added", true)
 					.text((d) => d);
 			}, 2000);
+
+			// Mark data to be removed
 			setTimeout(() => {
 				countryData.removeItem(0);
 				d3
@@ -60,8 +67,21 @@
 					.selectAll("li")
 					.data(countryData.items, (d) => d)
 					.exit()
-					.classed("redundant", true);
+					.remove();
+				// .classed("redundant", true);
 			}, 4000);
+
+			// Update data
+			setTimeout(() => {
+				countryData.updateItem(1, "Ghana");
+				d3
+					.select("ul")
+					.selectAll("li")
+					.data(countryData.items, (d) => d)
+					.exit()
+					.classed("updated", true)
+					.text("Ghana");
+			}, 6000);
 		</script>
 	</body>
 </html>
